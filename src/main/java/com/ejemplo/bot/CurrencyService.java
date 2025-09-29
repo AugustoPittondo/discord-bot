@@ -12,10 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Servicio para obtener cotizaciones de monedas
- * Utiliza la API gratuita de BluelyTics para cotizaciones del dólar
- */
+
 public class CurrencyService {
     private static final Logger logger = LoggerFactory.getLogger(CurrencyService.class);
     private static final String DOLLAR_API_URL = "https://api.bluelytics.com.ar/v2/latest";
@@ -29,9 +26,7 @@ public class CurrencyService {
                 .build();
     }
 
-    /**
-     * Obtiene la cotización actual del dólar oficial y blue
-     */
+
     public String getDollarRate() throws Exception {
         Request request = new Request.Builder()
                 .url(DOLLAR_API_URL)
@@ -52,39 +47,30 @@ public class CurrencyService {
         }
     }
 
-    /**
-     * Formatea la respuesta de la API en un mensaje legible
-     */
     private String formatDollarResponse(String jsonResponse) {
         try {
             JSONObject json = new JSONObject(jsonResponse);
 
-            // Verificar que los objetos existan
             if (!json.has("oficial") || !json.has("blue")) {
                 logger.error("Respuesta JSON no contiene datos esperados: {}", jsonResponse);
                 return "❌ Error: Datos de cotización no disponibles.";
             }
 
-            // Dólar oficial
             JSONObject oficial = json.getJSONObject("oficial");
             double oficialCompra = oficial.optDouble("value_buy", 0);
             double oficialVenta = oficial.optDouble("value_sell", 0);
 
-            // Dólar blue
             JSONObject blue = json.getJSONObject("blue");
             double blueCompra = blue.optDouble("value_buy", 0);
             double blueVenta = blue.optDouble("value_sell", 0);
 
-            // Validar que tenemos datos válidos
             if (oficialVenta == 0 || blueVenta == 0) {
                 logger.error("Valores de cotización inválidos - Oficial: {}, Blue: {}", oficialVenta, blueVenta);
                 return "❌ Error: Valores de cotización no disponibles en este momento.";
             }
 
-            // Calcular brecha
             double brecha = ((blueVenta - oficialVenta) / oficialVenta) * 100;
 
-            // Fecha de última actualización
             String lastUpdate = json.optString("last_update", "");
             String fechaFormateada = "No disponible";
 

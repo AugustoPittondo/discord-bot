@@ -7,10 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-/**
- * Gestor de configuración del bot
- * Maneja la carga y validación de propiedades desde config.properties
- */
+
 public class ConfigManager {
     private static final Logger logger = LoggerFactory.getLogger(ConfigManager.class);
     private static final String CONFIG_FILE = "config.properties";
@@ -22,9 +19,6 @@ public class ConfigManager {
         loadConfiguration();
     }
 
-    /**
-     * Carga la configuración desde el archivo properties
-     */
     private void loadConfiguration() {
         try (FileInputStream input = new FileInputStream(CONFIG_FILE)) {
             properties.load(input);
@@ -35,9 +29,6 @@ public class ConfigManager {
         }
     }
 
-    /**
-     * Valida que las configuraciones críticas estén presentes
-     */
     public boolean validateConfiguration() {
         boolean isValid = true;
 
@@ -57,7 +48,6 @@ public class ConfigManager {
         return isValid;
     }
 
-    // Getters para todas las propiedades
     public String getBotToken() {
         return properties.getProperty("bot.token", "");
     }
@@ -74,9 +64,6 @@ public class ConfigManager {
         return properties.getProperty("bot.prefix", "!");
     }
 
-    /**
-     * Obtiene una propiedad personalizada
-     */
     public String getProperty(String key, String defaultValue) {
         return properties.getProperty(key, defaultValue);
     }

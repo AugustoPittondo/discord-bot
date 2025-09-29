@@ -10,10 +10,6 @@ import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-/**
- * Manejador principal de comandos del bot
- * Procesa todos los mensajes y ejecuta los comandos correspondientes
- */
 public class CommandHandler extends ListenerAdapter {
     private static final Logger logger = LoggerFactory.getLogger(CommandHandler.class);
 
@@ -35,24 +31,20 @@ public class CommandHandler extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-        // Ignorar mensajes de bots
+
         if (event.getAuthor().isBot()) return;
 
         String message = event.getMessage().getContentRaw().trim();
         String prefix = config.getBotPrefix();
 
-        // Verificar si es un comando
         if (!message.startsWith(prefix)) return;
 
-        // Extraer comando y argumentos
         String[] parts = message.substring(prefix.length()).split("\\s+");
         String command = parts[0].toLowerCase();
 
-        // Log del comando ejecutado
         logger.info("🎮 Comando ejecutado: {} por {}",
                 message, event.getAuthor().getAsTag());
 
-        // Mostrar typing mientras se procesa
         event.getChannel().sendTyping().queue();
 
         try {
@@ -94,7 +86,6 @@ public class CommandHandler extends ListenerAdapter {
             event.getChannel().sendMessage("❌ Error interno del bot. Intenta nuevamente.").queue();
         }
     }
-
     private void handlePingCommand(MessageReceivedEvent event) {
         event.getChannel().sendMessage("🏓 Pong! Bot funcionando correctamente.").queue();
     }

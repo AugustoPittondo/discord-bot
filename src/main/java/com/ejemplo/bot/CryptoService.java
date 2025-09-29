@@ -12,10 +12,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Servicio para obtener precios de criptomonedas
- * Utiliza la API gratuita de CoinGecko
- */
+
 public class CryptoService {
     private static final Logger logger = LoggerFactory.getLogger(CryptoService.class);
     private static final String CRYPTO_API_URL = "https://api.coingecko.com/api/v3/simple/price" +
@@ -36,9 +33,6 @@ public class CryptoService {
         this.percentFormatter.setMaximumFractionDigits(2);
     }
 
-    /**
-     * Obtiene los precios actuales de las principales criptomonedas
-     */
     public String getCryptoPrices() throws Exception {
         Request request = new Request.Builder()
                 .url(CRYPTO_API_URL)
@@ -58,9 +52,6 @@ public class CryptoService {
         }
     }
 
-    /**
-     * Formatea la respuesta de la API en un mensaje legible
-     */
     private String formatCryptoResponse(String jsonResponse) {
         try {
             JSONObject json = new JSONObject(jsonResponse);
@@ -68,7 +59,6 @@ public class CryptoService {
             StringBuilder result = new StringBuilder();
             result.append("₿ **Precios de Criptomonedas**\n\n");
 
-            // Bitcoin
             if (json.has("bitcoin")) {
                 JSONObject btc = json.getJSONObject("bitcoin");
                 double price = btc.getDouble("usd");
@@ -82,7 +72,6 @@ public class CryptoService {
                         .append(String.format("%.2f%%", change24h)).append("\n\n");
             }
 
-            // Ethereum
             if (json.has("ethereum")) {
                 JSONObject eth = json.getJSONObject("ethereum");
                 double price = eth.getDouble("usd");
@@ -96,7 +85,6 @@ public class CryptoService {
                         .append(String.format("%.2f%%", change24h)).append("\n\n");
             }
 
-            // Cardano
             if (json.has("cardano")) {
                 JSONObject ada = json.getJSONObject("cardano");
                 double price = ada.getDouble("usd");
@@ -110,7 +98,6 @@ public class CryptoService {
                         .append(String.format("%.2f%%", change24h)).append("\n\n");
             }
 
-            // Polkadot
             if (json.has("polkadot")) {
                 JSONObject dot = json.getJSONObject("polkadot");
                 double price = dot.getDouble("usd");

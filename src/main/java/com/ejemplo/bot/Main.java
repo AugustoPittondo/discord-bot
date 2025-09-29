@@ -15,33 +15,31 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            // Cargar configuración
+
             ConfigManager config = new ConfigManager();
 
-            // Validar configuración crítica
+
             if (!config.validateConfiguration()) {
                 logger.error("❌ Error en la configuración. Cerrando bot...");
                 System.exit(1);
             }
 
-            // Inicializar servicios
             WeatherService weatherService = new WeatherService(config);
             NewsService newsService = new NewsService(config);
             CryptoService cryptoService = new CryptoService();
             CurrencyService currencyService = new CurrencyService();
 
-            // Crear handler de comandos
             CommandHandler commandHandler = new CommandHandler(
                     config, weatherService, newsService, cryptoService, currencyService
             );
 
-            // Configurar y iniciar el bot
+
             JDA jda = JDABuilder.createDefault(config.getBotToken())
                     .enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MESSAGES)
                     .addEventListeners(commandHandler)
                     .build();
 
-            // Esperar a que el bot esté completamente iniciado
+
             jda.awaitReady();
 
             logger.info("🚀 Bot iniciado correctamente!");

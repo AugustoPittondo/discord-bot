@@ -10,10 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Servicio para obtener información meteorológica
- * Utiliza la API de OpenWeatherMap
- */
+
 public class WeatherService {
     private static final Logger logger = LoggerFactory.getLogger(WeatherService.class);
     private static final String WEATHER_API_URL = "http://api.openweathermap.org/data/2.5/weather";
@@ -29,9 +26,6 @@ public class WeatherService {
                 .build();
     }
 
-    /**
-     * Obtiene información del clima para una ciudad específica
-     */
     public String getWeather(String city) throws Exception {
         String apiKey = config.getWeatherApiKey();
 
@@ -63,9 +57,6 @@ public class WeatherService {
         }
     }
 
-    /**
-     * Formatea la respuesta de la API en un mensaje legible
-     */
     private String formatWeatherResponse(String jsonResponse, String city) {
         try {
             JSONObject json = new JSONObject(jsonResponse);
@@ -99,9 +90,6 @@ public class WeatherService {
         }
     }
 
-    /**
-     * Capitaliza la primera letra de un string
-     */
     private String capitalize(String str) {
         if (str == null || str.isEmpty()) return str;
         return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
