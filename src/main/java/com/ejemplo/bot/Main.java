@@ -6,10 +6,6 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Clase principal del bot de Discord
- * Inicializa y configura el bot con todos sus servicios
- */
 public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
